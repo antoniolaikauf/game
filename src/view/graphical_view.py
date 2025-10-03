@@ -2,7 +2,7 @@ import pygame
 from data.initial_city import *  # Correct relative import
 from ..models.city_object import Object
 
-print(CORDINATE)
+
 class LayoutGame:
     def __init__(self, screen):
         pygame.init()
@@ -80,8 +80,8 @@ class LayoutGame:
 
             for num_object_x in range(CORDINATE.shape[0]):
                 object = Object("circle", self.screen, CORDINATE[num_object_x][0], CORDINATE[num_object_x][1])
-                object.draw()
-                
+                object.draw(self.camera_x, self.camera_y)
+            
             pygame.display.flip()      
             self.clock.tick(60)        
         
