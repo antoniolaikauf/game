@@ -79,8 +79,8 @@ class LayoutGame:
             self.draw_grid()
 
             for num_object_x in range(CORDINATE.shape[0]):
-                object = Object("circle", self.screen, CORDINATE[num_object_x][0], CORDINATE[num_object_x][1])
-                object.draw(self.camera_x, self.camera_y)
+                object = Object(OBJECT_BASE[num_object_x], self.screen, CORDINATE[num_object_x][0], CORDINATE[num_object_x][1], self.camera_x, self.camera_y)
+                object.draw()
             
             pygame.display.flip()      
             self.clock.tick(60)        
