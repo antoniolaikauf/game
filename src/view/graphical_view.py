@@ -1,7 +1,7 @@
 import pygame
 from data.initial_city import *  # Correct relative import
 from ..models.city_object import Object
-
+from ..controllers.features import Button
 
 class LayoutGame:
     def __init__(self, screen):
@@ -25,6 +25,7 @@ class LayoutGame:
                 pygame.draw.rect(self.screen, (200, 200, 200), rect, 1)      
 
     def start_game(self):
+        button = Button()
         running = True
         position_x = 0
         position_y = 0
@@ -81,6 +82,8 @@ class LayoutGame:
             for num_object_x in range(CORDINATE.shape[0]):
                 object = Object(OBJECT_BASE[num_object_x], self.screen, CORDINATE[num_object_x][0], CORDINATE[num_object_x][1], self.camera_x, self.camera_y)
                 object.draw()
+            
+            button(self.screen)
             
             pygame.display.flip()      
             self.clock.tick(60)        
