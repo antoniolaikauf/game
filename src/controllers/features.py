@@ -5,7 +5,7 @@ class Button:
     def __init__(self):
         self.position_x = BUTTON['positon_x']
         self.position_y = BUTTON['positon_y']
-        self.color =  BUTTON['color']
+        self.color =  BUTTON['color_not_over']
         self.width = BUTTON['width']
         self.height = BUTTON['height']
         self.radius = BUTTON['radius']
@@ -25,4 +25,20 @@ class Button:
         largeText = pygame.font.Font('freesansbold.ttf',self.font)
         text_surface = largeText.render(self.text , False, (0, 0, 0))
         screen.blit(text_surface, (((self.width // 2) + self.position_x) - text_surface.get_width() // 2, ((self.height // 2) + self.position_y) - (text_surface.get_height() // 2)))
+        
+    def mouse_over(self, position):
+        position_x = position[0]
+        position_y = position[1]
+
+        min_left = self.position_x - self.radius # cordinata minima left del pulsante 
+        max_left = self.position_x + self.width + self.radius # cordinata massima left del pulsante
+        min_top = self.position_y # cordinata minima top del pulsante
+        max_top = self.position_y + self.height # cordinata massima top del pulsante
+
+        if (min_left < position_x and position_x < max_left) and (min_top < position_y and position_y < max_top): # premuto il pulsante o sono sul bottone
+            self.color = BUTTON['color_over']
+            return True
+        
+        self.color = BUTTON['color_not_over']
+        return False
         

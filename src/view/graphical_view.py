@@ -36,24 +36,35 @@ class LayoutGame:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self.dragging = True
                     self.last_position = pygame.mouse.get_pos()
+
+                    # controllo se clicco bottone
+                    if button.mouse_over(self.last_position):
+                        # implementare qua tendina di oggetti
+                        print("bottone cliccato")
+                
                 elif event.type == pygame.MOUSEBUTTONUP:
                     self.dragging = False
-                elif event.type == pygame.MOUSEMOTION and self.dragging == True:
+                
+                elif event.type == pygame.MOUSEMOTION :
+                    # over sul bottone
+                    if button.mouse_over(pygame.mouse.get_pos()):
+                        pass
                     
-                    position_x, position_y = pygame.mouse.get_pos() # posizione dopo aaver fatto il drag con il mouse 
+                    if self.dragging == True:
+                        position_x, position_y = pygame.mouse.get_pos() # posizione dopo aaver fatto il drag con il mouse 
 
-                    # quantità mossa, può essere una decina o anche 0 essendo che ho visto che non si aggiorna
-                    # self.camera_x --> 5, self.camera_y --> 41, dx --> 0, dy --> -2
-                    # self.camera_x --> 5, self.camera_y --> 41, dx --> 0, dy --> 0
-                    dx = position_x - self.last_position[0] 
-                    dy = position_y - self.last_position[1] 
-                    # grandezza della camera cioè di quanto in la ti sei spinto fino ad ora 
-                    self.camera_x -= dx 
-                    self.camera_y -= dy
+                        # quantità mossa, può essere una decina o anche 0 essendo che ho visto che non si aggiorna
+                        # self.camera_x --> 5, self.camera_y --> 41, dx --> 0, dy --> -2
+                        # self.camera_x --> 5, self.camera_y --> 41, dx --> 0, dy --> 0
+                        dx = position_x - self.last_position[0] 
+                        dy = position_y - self.last_position[1] 
+                        # grandezza della camera cioè di quanto in la ti sei spinto fino ad ora 
+                        self.camera_x -= dx 
+                        self.camera_y -= dy
 
-                    self.last_position = (position_x, position_y)
+                        self.last_position = (position_x, position_y)
 
-                    print(f"self.camera_x --> {self.camera_x}, self.camera_y --> {self.camera_y}, dx --> {dx}, dy --> {dy}")
+                        print(f"self.camera_x --> {self.camera_x}, self.camera_y --> {self.camera_y}, dx --> {dx}, dy --> {dy}")
 
 
             '''
@@ -73,7 +84,7 @@ class LayoutGame:
                     # Posizione schermo (offset camera)
                     screen_x = world_x - self.camera_x
                     screen_y = world_y - self.camera_y
-                    # se siamo dentro tra la grandezza dell'immagine a sinistra (e quindi -) e la grandezza del layout + la sua immagine    stessa cosa per l'altezza
+                    # se siamo dentro tra la grandezza dell'immagine a sinistra (e quindi -) e la grandezza del layout + la sua immagine.       stessa cosa per l'altezza
                     if -self.tile_width < screen_x < WIDTH + self.tile_width and -self.tile_height < screen_y < HEIGHT + self.tile_height:
                         self.screen.blit(self.image, (screen_x, screen_y))
 
