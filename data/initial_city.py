@@ -8,11 +8,14 @@ GRIGIO = (131, 140, 142)
 VERDE = (0, 143, 57)
 
 BUTTON = {
-    'positon_x' : 10,
-    'positon_y' : 10,
+    'positon_x' : 20,
+    'positon_y' : 20,
     'color': VERDE,
-    'width': 50,
-    'height':30,
+    'width': 100,
+    'height': 50,
+    'radius': 10,
+    'font': 20,
+    'text' : "ok",
 }
 
 CORDINATE = np.random.randint((WIDTH // 2), size=(5,2))
