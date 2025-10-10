@@ -11,6 +11,7 @@ class Button:
         self.radius = BUTTON['radius']
         self.font = BUTTON['font']
         self.text = BUTTON['text']
+        self.button_click = False
 
     def __call__(self, screen):
         # cordinate bottone formato da due rettangoli e 4 cerchi ai lati che formano i raccordi
@@ -41,4 +42,22 @@ class Button:
         
         self.color = BUTTON['color_not_over']
         return False
-        
+
+class Menu:
+    def __init__(self):
+        self.list = MENU['list']
+        self.position_x = MENU['positon_x']
+        self.position_y = MENU['positon_y']
+        self.color =  MENU['color_not_over']
+        self.width = MENU['width']
+        self.height = MENU['height']
+        self.radius = MENU['radius']
+        self.font = MENU['font']
+        self.text = MENU['text']
+    
+    def __call__(self, screen):
+        pygame.draw.rect(screen, self.color, ((self.position_x, self.position_y), (self.width, self.height)))
+        pygame.draw.rect(screen, self.color, (((self.position_x - self.radius), (self.position_y + self.radius)), ((self.width + 2* self.radius), (self.height - 2*self.radius))))
+    
+    def mouse_over(self):
+        pass

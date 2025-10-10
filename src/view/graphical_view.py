@@ -1,7 +1,7 @@
 import pygame
 from data.initial_city import *  # Correct relative import
 from ..models.city_object import Object
-from ..controllers.features import Button
+from ..controllers.features import Button, Menu
 
 class LayoutGame:
     def __init__(self, screen):
@@ -26,6 +26,7 @@ class LayoutGame:
 
     def start_game(self):
         button = Button()
+        menu = Menu()
         running = True
         position_x = 0
         position_y = 0
@@ -37,10 +38,14 @@ class LayoutGame:
                     self.dragging = True
                     self.last_position = pygame.mouse.get_pos()
 
+                    # per uscire dal menu si clicca all'esterno del menu
+                    button.button_click = False
                     # controllo se clicco bottone
                     if button.mouse_over(self.last_position):
                         # implementare qua tendina di oggetti
-                        print("bottone cliccato")
+                        button.button_click = True
+                     
+                    print(button.button_click)
                 
                 elif event.type == pygame.MOUSEBUTTONUP:
                     self.dragging = False
@@ -95,6 +100,9 @@ class LayoutGame:
                 object.draw()
             
             button(self.screen)
+
+            if button.button_click:
+                menu(self.screen)
             
             pygame.display.flip()      
             self.clock.tick(60)        

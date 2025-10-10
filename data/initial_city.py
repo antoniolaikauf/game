@@ -20,5 +20,18 @@ BUTTON = {
     'text' : "ok",
 }
 
+MENU = {
+    'positon_x' : 20,
+    'positon_y' : 20,
+    'color_not_over': BLU,
+    'color_over':BLU_OVER,
+    'width': 150,
+    'height': 400,
+    'radius': 10,
+    'font': 20,
+    'text' : "menu",
+    'list' : ['casa', 'lago']
+}
+
 CORDINATE = np.random.randint((WIDTH // 2), size=(5,2))
 OBJECT_BASE = ["casa", "casa", "casa", "lago", "casa" ]
