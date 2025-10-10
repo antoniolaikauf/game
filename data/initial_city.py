@@ -17,7 +17,6 @@ BUTTON = {
     'height': 50,
     'radius': 10,
     'font': 20,
-    'text' : "ok",
 }
 
 MENU = {
@@ -29,8 +28,19 @@ MENU = {
     'height': 400,
     'radius': 10,
     'font': 20,
-    'text' : "menu",
-    'list' : ['casa', 'lago']
+    'tag' : ['casa', 'lago'],
+    'render': False
+}
+
+BUTTON_OBJECT = {
+    'positon_x' : 20,
+    'positon_y' : 20,
+    'color_not_over': BLU,
+    'color_over':BLU_OVER,
+    'width': 100,
+    'height': 50,
+    'radius': 10,
+    'font': 20,
 }
 
 CORDINATE = np.random.randint((WIDTH // 2), size=(5,2))

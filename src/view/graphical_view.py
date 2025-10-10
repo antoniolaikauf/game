@@ -40,12 +40,12 @@ class LayoutGame:
 
                     # per uscire dal menu si clicca all'esterno del menu
                     button.button_click = False
+
                     # controllo se clicco bottone
                     if button.mouse_over(self.last_position):
                         # implementare qua tendina di oggetti
                         button.button_click = True
-                     
-                    print(button.button_click)
+
                 
                 elif event.type == pygame.MOUSEBUTTONUP:
                     self.dragging = False
@@ -99,9 +99,11 @@ class LayoutGame:
                 object = Object(OBJECT_BASE[num_object_x], self.screen, CORDINATE[num_object_x][0], CORDINATE[num_object_x][1], self.camera_x, self.camera_y)
                 object.draw()
             
-            button(self.screen)
+            button(self.screen, 'Menu')
 
+            # mostrare il menu una volta cliccato il bottone
             if button.button_click:
+                
                 menu(self.screen)
             
             pygame.display.flip()      
