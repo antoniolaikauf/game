@@ -9,8 +9,9 @@ class Button:
     def __init__(self):
         self.position_x = 0
         self.position_y = 0
-        self.color =  0
+        self.color_real =  0
         self.color_over = 0
+        self.color = 0
         self.width = 0
         self.height = 0
         self.radius = 0
@@ -20,12 +21,12 @@ class Button:
 
     def __call__(self, screen, text_name, position, cordinata_x = 0, cordinata_y = 0):
         # cordinate bottone formato da due rettangoli e 4 cerchi ai lati che formano i raccordi
-        pygame.draw.rect(screen, self.color, ((self.position_x, self.position_y), (self.width, self.height)))
-        pygame.draw.rect(screen, self.color, (((self.position_x - self.radius), (self.position_y + self.radius)), ((self.width +  2 * self.radius), (self.height - 2 * self.radius))))
-        pygame.draw.circle(screen, self.color, (self.position_x , self.position_y + self.radius), self.radius)
-        pygame.draw.circle(screen, self.color, (self.position_x , self.position_y + self.height - self.radius), self.radius)
-        pygame.draw.circle(screen, self.color, (self.position_x + self.width , self.position_y + self.height - self.radius), self.radius)
-        pygame.draw.circle(screen, self.color, (self.position_x + self.width , self.position_y + self.radius), self.radius)
+        pygame.draw.rect(screen, self.color_real, ((self.position_x, self.position_y), (self.width, self.height)))
+        pygame.draw.rect(screen, self.color_real, (((self.position_x - self.radius), (self.position_y + self.radius)), ((self.width +  2 * self.radius), (self.height - 2 * self.radius))))
+        pygame.draw.circle(screen, self.color_real, (self.position_x , self.position_y + self.radius), self.radius)
+        pygame.draw.circle(screen, self.color_real, (self.position_x , self.position_y + self.height - self.radius), self.radius)
+        pygame.draw.circle(screen, self.color_real, (self.position_x + self.width , self.position_y + self.height - self.radius), self.radius)
+        pygame.draw.circle(screen, self.color_real, (self.position_x + self.width , self.position_y + self.radius), self.radius)
 
         #print(f"la cordinata di cordinata_x --> {cordinata_x}, cordinata di cordinata_y --> {cordinata_y}")
         text = pygame.font.Font('freesansbold.ttf', self.font)
@@ -50,12 +51,11 @@ class Button:
         min_top = self.position_y # cordinata minima top del pulsante
         max_top = self.position_y + self.height # cordinata massima top del pulsante
 
-        color_save = self.color
         if (min_left < position_x and position_x < max_left) and (min_top < position_y and position_y < max_top): # premuto il pulsante o sono sul bottone
-            self.color = self.color_over
+            self.color_real = self.color_over
             return True
         
-        self.color = color_save
+        self.color_real = self.color
         return False
 
 class Button_object(Button):
@@ -64,6 +64,7 @@ class Button_object(Button):
         self.position_y = BUTTON_OBJECT['positon_y']
         self.color =  BUTTON_OBJECT['color_not_over']
         self.color_over = BUTTON_OBJECT['color_over']
+        self.color_real = 0
         self.width = BUTTON_OBJECT['width']
         self.height = BUTTON_OBJECT['height']
         self.radius = BUTTON_OBJECT['radius']
@@ -77,6 +78,7 @@ class Button_general(Button):
         self.position_y = BUTTON['positon_y']
         self.color =  BUTTON['color_not_over']
         self.color_over = BUTTON['color_over']
+        self.color_real = 0
         self.width = BUTTON['width']
         self.height = BUTTON['height']
         self.radius = BUTTON['radius']
@@ -120,7 +122,7 @@ class Menu:
              if id_tag == 0: position_Y = self.position_y + (BUTTON_OBJECT['height'] * id_tag ) + 5
              else: position_Y += (BUTTON_OBJECT['height']) + 5
              self.button_tag[id_tag].position_y = position_Y 
-             self.button_tag[id_tag](screen, self.tag[id_tag], 'choice', self.position_x + 10, position_Y + ( BUTTON_OBJECT['height'] // 2 - BUTTON_OBJECT['font'] // 2))
+             self.button_tag[id_tag](screen, self.tag[id_tag], 'center')
              self.button_tag[id_tag].mouse_over(position_mouse)
              
 
