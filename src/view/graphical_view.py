@@ -1,7 +1,7 @@
 import pygame
 from data.initial_city import *  # Correct relative import
 from ..models.city_object import Object
-from ..controllers.features import Button, Menu
+from ..controllers.features import Button_general, Menu
 
 class LayoutGame:
     def __init__(self, screen):
@@ -25,7 +25,7 @@ class LayoutGame:
                 pygame.draw.rect(self.screen, (200, 200, 200), rect, 1)      
 
     def start_game(self):
-        button = Button()
+        button = Button_general()
         menu = Menu()
         running = True
         position_x = 0
@@ -99,11 +99,10 @@ class LayoutGame:
                 object = Object(OBJECT_BASE[num_object_x], self.screen, CORDINATE[num_object_x][0], CORDINATE[num_object_x][1], self.camera_x, self.camera_y)
                 object.draw()
             
-            button(self.screen, 'Menu')
+            button(self.screen, 'Menu', 'center')
 
             # mostrare il menu una volta cliccato il bottone
             if button.button_click:
-                
                 menu(self.screen)
             
             pygame.display.flip()      

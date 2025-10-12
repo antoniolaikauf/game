@@ -7,6 +7,8 @@ AZZURRO = (50, 150, 200)
 GRIGIO = (131, 140, 142)
 BLU = (0, 128, 255)  # Blu
 BLU_OVER = (0, 200, 255)   # Blu più chiaro per il passaggio del mouse
+VERDE_OVER = (80, 200, 120)
+VERDE = (0, 128, 0)
 
 BUTTON = {
     'positon_x' : 20,
@@ -28,15 +30,14 @@ MENU = {
     'height': 400,
     'radius': 10,
     'font': 20,
-    'tag' : ['casa', 'lago'],
-    'render': False
+    'tag' : ['casa', 'lago', 'ciaosa'],
 }
 
 BUTTON_OBJECT = {
-    'positon_x' : 20,
+    'positon_x' : 25,
     'positon_y' : 20,
-    'color_not_over': BLU,
-    'color_over':BLU_OVER,
+    'color_not_over': VERDE,
+    'color_over':VERDE_OVER,
     'width': 100,
     'height': 50,
     'radius': 10,
