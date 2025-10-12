@@ -5,19 +5,20 @@ from data.initial_city import *
 #    GESTIONE BOTTONE
 #------------------------
 
+# classe generale dei bottoni, se si vuole implementare qualcosa che tutti i bottoni abbiano metterla qua dentro
+
 class Button:
     def __init__(self):
-        self.position_x = 0
-        self.position_y = 0
-        self.color_real =  0
-        self.color_over = 0
-        self.color = 0
-        self.width = 0
-        self.height = 0
-        self.radius = 0
-        self.font = 0
-        self.button_click = False
-        self.size = [] #  widthg, height
+        self.position_x = 0 # posizione X
+        self.position_y = 0 # posizione Y
+        self.color_real =  0 # colore usato 
+        self.color_over = 0 # colore durante over del ouse
+        self.color = 0 # colore durante non over del mouse
+        self.width = 0 # larghezza
+        self.height = 0 # altezza 
+        self.radius = 0 # radio bordi
+        self.font = 0 # grandezza del testo del bottone
+        self.button_click = False # bottone cliccato 
 
     def __call__(self, screen, text_name, position, cordinata_x = 0, cordinata_y = 0):
         # cordinate bottone formato da due rettangoli e 4 cerchi ai lati che formano i raccordi
@@ -28,20 +29,18 @@ class Button:
         pygame.draw.circle(screen, self.color_real, (self.position_x + self.width , self.position_y + self.height - self.radius), self.radius)
         pygame.draw.circle(screen, self.color_real, (self.position_x + self.width , self.position_y + self.radius), self.radius)
 
-        #print(f"la cordinata di cordinata_x --> {cordinata_x}, cordinata di cordinata_y --> {cordinata_y}")
         text = pygame.font.Font('freesansbold.ttf', self.font)
         text_surface = 0
-        # creazione testo bottone
+
+        # creazione testo bottone se si vuole creare la posizione dle testo del bottone inserire qua 
         if position == 'center':
             text_surface = text.render(text_name , False, (0, 0, 0))
             screen.blit(text_surface, (((self.width // 2) + self.position_x) - text_surface.get_width() // 2, ((self.height // 2) + self.position_y) - (text_surface.get_height() // 2)))
         elif position == 'choice':
             text_surface = text.render(text_name, False, (0, 0, 0))
             screen.blit(text_surface, (cordinata_x, cordinata_y))
-
-        self.size.append(text_surface.get_width())
-        self.size.append(text_surface.get_height())
-        
+    
+    # implementazione mouse over del bottone
     def mouse_over(self, position):
         position_x = position[0]
         position_y = position[1]
@@ -114,8 +113,7 @@ class Menu:
         pygame.draw.circle(screen, self.color, (self.position_x + self.width , self.position_y + self.height - self.radius), self.radius)
         pygame.draw.circle(screen, self.color, (self.position_x + self.width , self.position_y + self.radius), self.radius)
     
-        # salvataggio prime positioni
-
+        # creazione bottono del menu ogni bottone e staccado da 5 
         position_mouse = pygame.mouse.get_pos()
         for id_tag in range(len(self.tag)):
              print(f"la cordinata di cordinata_x --> {self.button_tag[id_tag].position_y}, cordinata di BUTTON_OBJECT['height'] --> {BUTTON_OBJECT['height']} ")
@@ -124,10 +122,6 @@ class Menu:
              self.button_tag[id_tag].position_y = position_Y 
              self.button_tag[id_tag](screen, self.tag[id_tag], 'center')
              self.button_tag[id_tag].mouse_over(position_mouse)
-             
-
-    def mouse_over(self):
-        pass
     
         
         
