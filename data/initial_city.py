@@ -45,5 +45,4 @@ BUTTON_OBJECT = {
 }
 
 CORDINATE = np.random.randint((WIDTH // 2), size=(5,2))
-#np.save("initial_city.py", CORDINATE)
 OBJECT_BASE = ["casa", "casa", "casa", "lago", "casa" ]
