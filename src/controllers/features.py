@@ -18,7 +18,7 @@ class Button:
         self.height = 0 # altezza 
         self.radius = 0 # radio bordi
         self.font = 0 # grandezza del testo del bottone
-        self.button_click = False # bottone cliccato 
+        self.button_click = False # bottone cliccato
 
     def __call__(self, screen, text_name, position, cordinata_x = 0, cordinata_y = 0):
         # cordinate bottone formato da due rettangoli e 4 cerchi ai lati che formano i raccordi
@@ -45,6 +45,7 @@ class Button:
         position_x = position[0]
         position_y = position[1]
 
+        
         min_left = self.position_x - self.radius # cordinata minima left del pulsante 
         max_left = self.position_x + self.width + self.radius # cordinata massima left del pulsante
         min_top = self.position_y # cordinata minima top del pulsante
@@ -104,6 +105,7 @@ class Menu:
         self.font = MENU['font']
         self.tag = MENU['tag']
         self.button_tag = [Button_object() for Button_tag in range(len(MENU['tag']))]
+        self.position_button = []
     
     def __call__(self, screen):
         pygame.draw.rect(screen, self.color, ((self.position_x, self.position_y), (self.width, self.height)))
@@ -116,12 +118,24 @@ class Menu:
         # creazione bottono del menu ogni bottone e staccado da 5 
         position_mouse = pygame.mouse.get_pos()
         for id_tag in range(len(self.tag)):
-             print(f"la cordinata di cordinata_x --> {self.button_tag[id_tag].position_y}, cordinata di BUTTON_OBJECT['height'] --> {BUTTON_OBJECT['height']} ")
-             if id_tag == 0: position_Y = self.position_y + (BUTTON_OBJECT['height'] * id_tag ) + 5
-             else: position_Y += (BUTTON_OBJECT['height']) + 5
-             self.button_tag[id_tag].position_y = position_Y 
-             self.button_tag[id_tag](screen, self.tag[id_tag], 'center')
-             self.button_tag[id_tag].mouse_over(position_mouse)
+             #print(f"la cordinata di cordinata_x --> {self.button_tag[id_tag].position_y}, cordinata di BUTTON_OBJECT['height'] --> {BUTTON_OBJECT['height']} ")
+                
+            if id_tag == 0: position_Y = self.position_y + (BUTTON_OBJECT['height'] * id_tag ) + 5
+            else: position_Y += (BUTTON_OBJECT['height']) + 5
+            self.button_tag[id_tag].position_y = position_Y 
+            self.button_tag[id_tag](screen, self.tag[id_tag], 'center')
+            self.button_tag[id_tag].mouse_over(position_mouse)
+
+            # salvataggio delle cordinate dei bottoni
+            
+            if len(self.position_button) != len(self.tag):
+                position_X_MIN = self.button_tag[id_tag].position_x
+                position_Y_MIN = self.button_tag[id_tag].position_y
+                position_X_MAX = self.button_tag[id_tag].position_x + self.button_tag[id_tag].width
+                position_Y_MAX = self.button_tag[id_tag].position_y + self.button_tag[id_tag].height
+
+                self.position_button.append({'position_x_min': position_X_MIN, 'position_y_min' : position_Y_MIN, 'position_X_max': position_X_MAX, 'position_y_max': position_Y_MAX})
+                
     
         
         

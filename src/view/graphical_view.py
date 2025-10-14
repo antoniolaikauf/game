@@ -3,6 +3,16 @@ from data.initial_city import *  # Correct relative import
 from ..models.city_object import Object
 from ..controllers.features import Button_general, Menu
 
+
+def check_button(position_chicked, menu_bottoni):
+    for button_id in range(len(menu_bottoni)):
+        print(f" indice bottone --> {button_id}, cordinate --> {menu_bottoni[button_id]}")
+    
+
+
+
+
+
 class LayoutGame:
     def __init__(self, screen):
         pygame.init()
@@ -39,9 +49,13 @@ class LayoutGame:
                     self.last_position = pygame.mouse.get_pos()
 
                     # per uscire dal menu si clicca all'esterno del menu
-                    button.button_click = False
+                    if (((MENU['positon_x'] < self.last_position[0]) and (self.last_position[0] < MENU['positon_x'] + MENU['width'])) and ((MENU['positon_y'] < self.last_position[1]) and (self.last_position[1] < MENU['positon_y'] + MENU['height']))):
+                        pass
+                    else:
+                        button.button_click = False
 
-                    # controllo se clicco bottone
+                    check_button(self.last_position, menu.position_button)
+                    # controllo se clicco bottone tendina
                     if button.mouse_over(self.last_position):
                         # implementare qua tendina di oggetti
                         button.button_click = True
