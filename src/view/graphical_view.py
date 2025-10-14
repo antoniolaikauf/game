@@ -2,13 +2,18 @@ import pygame
 from data.initial_city import *  # Correct relative import
 from ..models.city_object import Object
 from ..controllers.features import Button_general, Menu
+import numpy as np
 
-
-def check_button(position_chicked, menu_bottoni):
+def check_button(position_clicked, menu_bottoni):
     for button_id in range(len(menu_bottoni)):
-        print(f" indice bottone --> {button_id}, cordinate --> {menu_bottoni[button_id]}")
-    
+        # si controlla se si ha cliccato il bottone dentro al menu degli oggetti
+        if (((position_clicked[0] > menu_bottoni[button_id]['position_x_min']) and (position_clicked[0] < menu_bottoni[button_id]['position_X_max'])) and((position_clicked[1] > menu_bottoni[button_id]['position_y_min']) and (position_clicked[1] < menu_bottoni[button_id]['position_y_max']))):
+            OBJECT_BASE.append(menu_bottoni[button_id]['name'])
+            # inserire le cordinate qua 
 
+            
+            #CORDINATE.concatenate([500, 500])    
+            print(f"ho cliccato il bottone --> {menu_bottoni[button_id]['name']}")
 
 
 

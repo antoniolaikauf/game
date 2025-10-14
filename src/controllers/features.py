@@ -127,14 +127,14 @@ class Menu:
             self.button_tag[id_tag].mouse_over(position_mouse)
 
             # salvataggio delle cordinate dei bottoni
-            
+
             if len(self.position_button) != len(self.tag):
                 position_X_MIN = self.button_tag[id_tag].position_x
                 position_Y_MIN = self.button_tag[id_tag].position_y
                 position_X_MAX = self.button_tag[id_tag].position_x + self.button_tag[id_tag].width
                 position_Y_MAX = self.button_tag[id_tag].position_y + self.button_tag[id_tag].height
 
-                self.position_button.append({'position_x_min': position_X_MIN, 'position_y_min' : position_Y_MIN, 'position_X_max': position_X_MAX, 'position_y_max': position_Y_MAX})
+                self.position_button.append({'name': self.tag[id_tag], 'position_x_min': position_X_MIN, 'position_y_min' : position_Y_MIN, 'position_X_max': position_X_MAX, 'position_y_max': position_Y_MAX})
                 
     
         
