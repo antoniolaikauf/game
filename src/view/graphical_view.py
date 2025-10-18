@@ -12,13 +12,12 @@ def position_object(object, position_release):
     CORDINATE = np.concatenate((CORDINATE, np.array([[position_release[0], position_release[1]]])), axis=0)
 
 
-def check_buttons(position_clicked, pulsante): 
+def check_button(position_clicked, pulsante): 
     print(pulsante)
     # si controlla se si ha cliccato il bottone dentro al menu degli oggetti
     if (((position_clicked[0] > pulsante['position_x_min']) and (position_clicked[0] < pulsante['position_X_max'])) and((position_clicked[1] > pulsante['position_y_min']) and (position_clicked[1] < pulsante['position_y_max']))):
         return True
     return False
-
 
 class LayoutGame:
     def __init__(self, screen):
@@ -58,22 +57,28 @@ class LayoutGame:
                     self.dragging = True
                     self.last_position = pygame.mouse.get_pos()
 
-                    # per uscire dal menu si clicca all'esterno del menu
+                    '''
+
+                        quando si clicca un pulsante dentro il menu permette di depositare l'oggetto
+                        all'interno della mappa, una volta rilasciato il menu rimane aperto.
+                        cosi che se si volesse depositare un altro oggetto basta ricliccarlo.
+                        se non si clicca un altro pulsante e si clicca all'infuori del menu allora il menu scomparirà
+                        questo processo è gestito tutto da pulsante_premuto e condizioni per vedere dove si è premuto,
+                        invece per la creazione dell'oggetto viene gestito da position_object che lo crea nel punto cliccato
+                        all'infuori del menu e da position_object che controlla se si ha cliccato un pulsante o no
+
+                    '''
                     if (((MENU['positon_x'] < self.last_position[0]) and (self.last_position[0] < MENU['positon_x'] + MENU['width'])) and ((MENU['positon_y'] < self.last_position[1]) and (self.last_position[1] < MENU['positon_y'] + MENU['height']))):
                         for button_menu_id in range(len(menu.position_button)):
-                            pulsante_premuto = check_buttons(self.last_position, menu.position_button[button_menu_id])
+                            pulsante_premuto = check_button(self.last_position, menu.position_button[button_menu_id])
                             name_button = menu.position_button[button_menu_id]                          
-                            print(f"premuto il pulsante --> {pulsante_premuto}, nome --> {name_button}")
-
                             if pulsante_premuto:
                                 break
                     else:
-                        print(f"premuto il pulsante --> {pulsante_premuto}, nome --> {name_button}")
                         if pulsante_premuto:
-                            print("creazione pulsante nella mappa")
+                            pulsante_premuto = False
                             position_object(name_button, self.last_position)
                         else:
-                            print("chiusura tendina, non si è cliccato il pulsante")
                             button.button_click = False
 
                     # controllo se clicco bottone tendina
@@ -142,8 +147,4 @@ class LayoutGame:
             pygame.display.flip()      
             self.clock.tick(60)        
         
-        pygame.quit()
-
-if __name__ == "__main__":
-    game = LayoutGame()
-    game.start_game()    
+        pygame.quit()   
