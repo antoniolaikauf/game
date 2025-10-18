@@ -4,20 +4,20 @@ from ..models.city_object import Object
 from ..controllers.features import Button_general, Menu
 import numpy as np
 
-def check_button(position_clicked, menu_bottoni):
-    for button_id in range(len(menu_bottoni)):
-        global CORDINATE
-        # si controlla se si ha cliccato il bottone dentro al menu degli oggetti
-        if (((position_clicked[0] > menu_bottoni[button_id]['position_x_min']) and (position_clicked[0] < menu_bottoni[button_id]['position_X_max'])) and((position_clicked[1] > menu_bottoni[button_id]['position_y_min']) and (position_clicked[1] < menu_bottoni[button_id]['position_y_max']))):
-            # inserito nome dell'oggetto
-            # TODO quando si clicca al di fuori del menu allora si ottengono le cordinate e si inserisce il nome 
-            OBJECT_BASE.append(menu_bottoni[button_id]['name'])
-            # inserire le cordinate qua
-            CORDINATE = np.concatenate([CORDINATE, np.array([[500, 500]])], axis=0)
-  
-            print(f"ho cliccato il bottone --> {menu_bottoni[button_id]['name']}")
+def position_object(object, position_release):
+    global CORDINATE
+    print(f"ho cliccato il bottone --> {object}")
+    OBJECT_BASE.append(object['name'])
+    # inserire le cordinate qua
+    CORDINATE = np.concatenate((CORDINATE, np.array([[position_release[0], position_release[1]]])), axis=0)
 
 
+def check_buttons(position_clicked, pulsante): 
+    print(pulsante)
+    # si controlla se si ha cliccato il bottone dentro al menu degli oggetti
+    if (((position_clicked[0] > pulsante['position_x_min']) and (position_clicked[0] < pulsante['position_X_max'])) and((position_clicked[1] > pulsante['position_y_min']) and (position_clicked[1] < pulsante['position_y_max']))):
+        return True
+    return False
 
 
 class LayoutGame:
@@ -47,6 +47,9 @@ class LayoutGame:
         running = True
         position_x = 0
         position_y = 0
+        pulsante_premuto = False
+        name_button = ''
+
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -57,17 +60,26 @@ class LayoutGame:
 
                     # per uscire dal menu si clicca all'esterno del menu
                     if (((MENU['positon_x'] < self.last_position[0]) and (self.last_position[0] < MENU['positon_x'] + MENU['width'])) and ((MENU['positon_y'] < self.last_position[1]) and (self.last_position[1] < MENU['positon_y'] + MENU['height']))):
-                        pass
-                    else:
-                        button.button_click = False
+                        for button_menu_id in range(len(menu.position_button)):
+                            pulsante_premuto = check_buttons(self.last_position, menu.position_button[button_menu_id])
+                            name_button = menu.position_button[button_menu_id]                          
+                            print(f"premuto il pulsante --> {pulsante_premuto}, nome --> {name_button}")
 
-                    check_button(self.last_position, menu.position_button)
+                            if pulsante_premuto:
+                                break
+                    else:
+                        print(f"premuto il pulsante --> {pulsante_premuto}, nome --> {name_button}")
+                        if pulsante_premuto:
+                            print("creazione pulsante nella mappa")
+                            position_object(name_button, self.last_position)
+                        else:
+                            print("chiusura tendina, non si è cliccato il pulsante")
+                            button.button_click = False
+
                     # controllo se clicco bottone tendina
                     if button.mouse_over(self.last_position):
-                        # implementare qua tendina di oggetti
                         button.button_click = True
 
-                
                 elif event.type == pygame.MOUSEBUTTONUP:
                     self.dragging = False
                 
@@ -117,7 +129,7 @@ class LayoutGame:
             self.draw_grid()
 
             for num_object_x in range(CORDINATE.shape[0]):
-                print(CORDINATE[num_object_x], OBJECT_BASE[num_object_x])
+                
                 object = Object(OBJECT_BASE[num_object_x], self.screen, CORDINATE[num_object_x][0], CORDINATE[num_object_x][1], self.camera_x, self.camera_y)
                 object.draw()
             
