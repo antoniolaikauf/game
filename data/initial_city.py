@@ -9,6 +9,8 @@ BLU = (0, 128, 255)  # Blu
 BLU_OVER = (0, 200, 255)   # Blu più chiaro per il passaggio del mouse
 VERDE_OVER = (80, 200, 120)
 VERDE = (0, 128, 0)
+SIZE_HOME = [20, 20]
+SIZE_LAKE = [30]
 
 BUTTON = {
     'positon_x' : 20,
@@ -45,4 +47,30 @@ BUTTON_OBJECT = {
 }
 
 CORDINATE = np.random.randint((WIDTH // 2), size=(5,2))
-OBJECT_BASE = ["casa", "casa", "casa", "lago", "casa" ]
+OBJECT_BASE = [
+    {
+        'name':'casa',
+        'size':SIZE_HOME,
+        'color':GRIGIO
+    },
+    {
+        'name':'casa',
+        'size':SIZE_HOME,
+        'color':GRIGIO,
+    },
+    {
+        'name':'casa',
+        'size':SIZE_HOME,
+        'color':GRIGIO,
+    },
+    {
+        'name':'lago',
+        'size':SIZE_LAKE,
+        'color':AZZURRO
+    },
+    {
+        'name':'casa',
+        'size':SIZE_HOME,
+        'color':GRIGIO
+    }
+]
