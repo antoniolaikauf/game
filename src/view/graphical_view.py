@@ -9,25 +9,37 @@ def position_object(object, position_release):
     print(f"ho cliccato il bottone --> {object}")
     size = 0
     color = 0
-    for position_button_id in range(len(CORDINATE)):
-        pass
-        #if (position_release[0])
-    
-    for position_button_id in range(len(OBJECT_BASE)):
-        if (OBJECT_BASE[position_button_id]['name'] == object['name']):
-            size = OBJECT_BASE[position_button_id]['size']
-            color = OBJECT_BASE[position_button_id]['color']
-            break
+    draw = True
+    match object['name']:
+        case 'casa':  
+            size = SIZE_HOME
+            color = GRIGIO
+            # controllo se le cordinate cliccate si sovrappongono con oggetto gia esistente
+            # TODO ricordare che il singolo oggetto deve controllare tutti gli oggetti in questo caso casa sta controllando solo i componenti 
+            for position_button_id in range(len(CORDINATE)):
+                print(f"cordinate --> {CORDINATE[position_button_id]}")
+                print(f"posizione rilascio --> {position_release}")
+                print(f"grandezza --> {size}")
+                
+                if (((position_release[0] > CORDINATE[position_button_id][0]) and (position_release[0] < (CORDINATE[position_button_id][0] + size[0]))) and ((position_release[1] > CORDINATE[position_button_id][1]) and (position_release[1] < (CORDINATE[position_button_id][1] + size[1])))):
+                    draw = False
+                    break
+        case 'lago':
+            size = SIZE_LAKE
+            color = AZZURRO
 
-    OBJECT_BASE.append({'name':object['name'], 'size':size, 'color':color})
-    # inserire le cordinate qua
-    CORDINATE = np.concatenate((CORDINATE, np.array([[position_release[0], position_release[1]]])), axis=0)
+    print(f"draw --> {draw}")
+    if draw:
+        OBJECT_BASE.append({'name':object['name'], 'size':size, 'color':color})
+        # inserire le cordinate qua
+        CORDINATE = np.concatenate((CORDINATE, np.array([[position_release[0], position_release[1]]])), axis=0)
+        draw = False
 
 
 def check_button(position_clicked, pulsante): 
     print(pulsante)
     # si controlla se si ha cliccato il bottone dentro al menu degli oggetti
-    if (((position_clicked[0] > pulsante['position_x_min']) and (position_clicked[0] < pulsante['position_X_max'])) and((position_clicked[1] > pulsante['position_y_min']) and (position_clicked[1] < pulsante['position_y_max']))):
+    if (((position_clicked[0] > pulsante['position_x_min']) and (position_clicked[0] < pulsante['position_X_max'])) and ((position_clicked[1] > pulsante['position_y_min']) and (position_clicked[1] < pulsante['position_y_max']))):
         return True
     return False
 
