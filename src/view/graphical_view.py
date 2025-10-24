@@ -10,23 +10,40 @@ def position_object(object, position_release):
     size = 0
     color = 0
     draw = True
+    size_check = 0
     match object['name']:
         case 'casa':  
             size = SIZE_HOME
             color = GRIGIO
+            size_check = size
             # controllo se le cordinate cliccate si sovrappongono con oggetto gia esistente
-            # TODO ricordare che il singolo oggetto deve controllare tutti gli oggetti in questo caso casa sta controllando solo i componenti 
-            for position_button_id in range(len(CORDINATE)):
-                print(f"cordinate --> {CORDINATE[position_button_id]}")
-                print(f"posizione rilascio --> {position_release}")
-                print(f"grandezza --> {size}")
-                
-                if (((position_release[0] > CORDINATE[position_button_id][0]) and (position_release[0] < (CORDINATE[position_button_id][0] + size[0]))) and ((position_release[1] > CORDINATE[position_button_id][1]) and (position_release[1] < (CORDINATE[position_button_id][1] + size[1])))):
-                    draw = False
-                    break
         case 'lago':
             size = SIZE_LAKE
             color = AZZURRO
+            size_check = size
+            size_check.append(0)
+    # TODO AL POSTO DI FARE COSI è MEGLIO CONTROLLARE I 4 'CONFINI' PIU ESTREMI
+    # TOP BOTTTON LEF RIGHT COSI CHE DOPO SI VEDE SE IL position_release è ALL'INTERNO DI QUEI
+    # VALORI ALLORA NON COMPARE IL NUOVO OGGETTO
+
+
+    for position_button_id in range(len(CORDINATE)):            
+        match OBJECT_BASE[position_button_id]['name']:
+            case 'casa':
+                print(f"posizione rilascio --> {position_release}")
+                print(f"grandezza --> {size}")
+                if (((position_release[0] > CORDINATE[position_button_id][0]) and (position_release[0] < (CORDINATE[position_button_id][0] + size[0]))) and ((position_release[1] > CORDINATE[position_button_id][1]) and (position_release[1] < (CORDINATE[position_button_id][1] + size[1])))):
+                    draw = False
+                    print("ho cliccato la casa\n")
+                    break
+            case 'lago':
+                print(f"posizione rilascio per lago --> {position_release}")
+                print(f"grandezza per lago --> {size}")
+                print(f"cordinate --> {CORDINATE[position_button_id]}")
+                if (((position_release[0] >= CORDINATE[position_button_id][0] - size[0]) and (position_release[0] <= (CORDINATE[position_button_id][0] + size[0]))) and ((position_release[1] >= CORDINATE[position_button_id][1] - size[0]) and (position_release[1] <= (CORDINATE[position_button_id][1] + size[0])))):
+                    draw = False
+                    print("ho cliccato il lago\n")
+                    break
 
     print(f"draw --> {draw}")
     if draw:
@@ -34,6 +51,7 @@ def position_object(object, position_release):
         # inserire le cordinate qua
         CORDINATE = np.concatenate((CORDINATE, np.array([[position_release[0], position_release[1]]])), axis=0)
         draw = False
+        
 
 
 def check_button(position_clicked, pulsante): 
