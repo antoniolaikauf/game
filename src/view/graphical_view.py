@@ -4,8 +4,16 @@ from ..models.city_object import Object
 from ..controllers.features import Button_general, Menu
 import numpy as np
 
-def get_bounds(center_x, center_y, object_type):
-    pass
+def get_bounds(center_x, center_y, width, height):
+    half_w = width / 2
+    half_h = height / 2
+    
+    return (
+        center_x - half_w,
+        center_x + half_w,
+        center_y - half_h,
+        center_y + half_h
+    )
 
 def position_object(object, position_release):
     global CORDINATE
@@ -20,28 +28,22 @@ def position_object(object, position_release):
         case 'lago':
             size = SIZE_LAKE
             color = AZZURRO
-            width_new = size[0]
-            height_new = size[0]
+            width_new = size[0], height_new = size[0]
 
-    for position_button_id in range(len(CORDINATE)):
-        if OBJECT_BASE[position_button_id]['name'] == 'casa':
-            position_bottom = CORDINATE[position_button_id][1] + height_new
-            position_top = CORDINATE[position_button_id][1]
-            position_left = CORDINATE[position_button_id][0]
-            position_right = CORDINATE[position_button_id][0] + width_new
-        elif OBJECT_BASE[position_button_id]['name'] == 'lago':
-            position_bottom = CORDINATE[position_button_id][1] + height_new
-            position_top = CORDINATE[position_button_id][1] - height_new
-            position_left = CORDINATE[position_button_id][0] - width_new
-            position_right = CORDINATE[position_button_id][0] + width_new
-        
-        print(f"position_bottom --> {position_bottom}, position_top --> {position_top}, position_left --> {position_left}, position_right --> {position_right}")
+    for  idx_coord, coord in enumerate(CORDINATE):
+        if OBJECT_BASE[idx_coord]['name'] == 'casa':
+            center_x = coord[0] + (SIZE_HOME[0] // 2)
+            center_y = coord[1] + (SIZE_HOME[1] // 2)
+        elif OBJECT_BASE[idx_coord]['name'] == 'lago':
+            center_x = coord[0] 
+            center_y = coord[1]
+
+        position_left, position_right, position_top, position_bottom = get_bounds(center_x, center_y, width_new, height_new)
+        # print(f"position_bottom --> {position_bottom}, position_top --> {position_top}, position_left --> {position_left}, position_right --> {position_right}")
         if (((position_left <= position_release[0]) and (position_release[0] <= position_right)) and ((position_top <= position_release[1])) and (position_release[1] <= position_bottom )):
             draw = False
-            print(f"disegnato un {object['name']}")
             break
-        # print(f"posizione oggetto --> {OBJECT_BASE[position_button_id]}, object --> {object}, cordinate oggetto --> {CORDINATE [position_button_id]}")
-
+        
     print(f"draw --> {draw}")
     if draw:
         OBJECT_BASE.append({'name':object['name'], 'size':size, 'color':color})
