@@ -135,4 +135,3 @@ class Menu:
                 position_Y_MAX = self.button_tag[id_tag].position_y + self.button_tag[id_tag].height
 
                 self.position_button.append({'name': self.tag[id_tag], 'position_x_min': position_X_MIN, 'position_y_min' : position_Y_MIN, 'position_X_max': position_X_MAX, 'position_y_max': position_Y_MAX})
-            

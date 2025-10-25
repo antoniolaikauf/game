@@ -4,46 +4,43 @@ from ..models.city_object import Object
 from ..controllers.features import Button_general, Menu
 import numpy as np
 
+def get_bounds(center_x, center_y, object_type):
+    pass
+
 def position_object(object, position_release):
     global CORDINATE
     print(f"ho cliccato il bottone --> {object}")
-    size = 0
-    color = 0
     draw = True
-    size_check = 0
     match object['name']:
         case 'casa':  
             size = SIZE_HOME
             color = GRIGIO
-            size_check = size
+            width_new, height_new = size
             # controllo se le cordinate cliccate si sovrappongono con oggetto gia esistente
         case 'lago':
             size = SIZE_LAKE
             color = AZZURRO
-            size_check = size
-            size_check.append(0)
-    # TODO AL POSTO DI FARE COSI è MEGLIO CONTROLLARE I 4 'CONFINI' PIU ESTREMI
-    # TOP BOTTTON LEF RIGHT COSI CHE DOPO SI VEDE SE IL position_release è ALL'INTERNO DI QUEI
-    # VALORI ALLORA NON COMPARE IL NUOVO OGGETTO
+            width_new = size[0]
+            height_new = size[0]
 
-
-    for position_button_id in range(len(CORDINATE)):            
-        match OBJECT_BASE[position_button_id]['name']:
-            case 'casa':
-                print(f"posizione rilascio --> {position_release}")
-                print(f"grandezza --> {size}")
-                if (((position_release[0] > CORDINATE[position_button_id][0]) and (position_release[0] < (CORDINATE[position_button_id][0] + size[0]))) and ((position_release[1] > CORDINATE[position_button_id][1]) and (position_release[1] < (CORDINATE[position_button_id][1] + size[1])))):
-                    draw = False
-                    print("ho cliccato la casa\n")
-                    break
-            case 'lago':
-                print(f"posizione rilascio per lago --> {position_release}")
-                print(f"grandezza per lago --> {size}")
-                print(f"cordinate --> {CORDINATE[position_button_id]}")
-                if (((position_release[0] >= CORDINATE[position_button_id][0] - size[0]) and (position_release[0] <= (CORDINATE[position_button_id][0] + size[0]))) and ((position_release[1] >= CORDINATE[position_button_id][1] - size[0]) and (position_release[1] <= (CORDINATE[position_button_id][1] + size[0])))):
-                    draw = False
-                    print("ho cliccato il lago\n")
-                    break
+    for position_button_id in range(len(CORDINATE)):
+        if OBJECT_BASE[position_button_id]['name'] == 'casa':
+            position_bottom = CORDINATE[position_button_id][1] + height_new
+            position_top = CORDINATE[position_button_id][1]
+            position_left = CORDINATE[position_button_id][0]
+            position_right = CORDINATE[position_button_id][0] + width_new
+        elif OBJECT_BASE[position_button_id]['name'] == 'lago':
+            position_bottom = CORDINATE[position_button_id][1] + height_new
+            position_top = CORDINATE[position_button_id][1] - height_new
+            position_left = CORDINATE[position_button_id][0] - width_new
+            position_right = CORDINATE[position_button_id][0] + width_new
+        
+        print(f"position_bottom --> {position_bottom}, position_top --> {position_top}, position_left --> {position_left}, position_right --> {position_right}")
+        if (((position_left <= position_release[0]) and (position_release[0] <= position_right)) and ((position_top <= position_release[1])) and (position_release[1] <= position_bottom )):
+            draw = False
+            print(f"disegnato un {object['name']}")
+            break
+        # print(f"posizione oggetto --> {OBJECT_BASE[position_button_id]}, object --> {object}, cordinate oggetto --> {CORDINATE [position_button_id]}")
 
     print(f"draw --> {draw}")
     if draw:
