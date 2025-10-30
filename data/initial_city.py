@@ -1,4 +1,5 @@
 import numpy as np
+import copy
 
 WIDTH = 1200
 HEIGHT = 720
@@ -47,6 +48,7 @@ BUTTON_OBJECT = {
 }
 
 CORDINATE = np.random.randint((WIDTH // 2), size=(5,2))
+CORDINATE_UPDATE = copy.deepcopy(CORDINATE)
 OBJECT_BASE = [
     {
         'name':'casa',

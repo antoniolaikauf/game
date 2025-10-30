@@ -4,6 +4,7 @@ from ..models.city_object import Object
 from ..controllers.features import Button_general, Menu
 import numpy as np
 
+# dal centro si ottiene i suoi punti più estremi
 def get_bounds(center_x, center_y, width, height):
     half_w = width / 2
     half_h = height / 2
@@ -15,43 +16,56 @@ def get_bounds(center_x, center_y, width, height):
         center_y + half_h
     )
 
+
+# si controllano le posizioni 'false' degli oggetti 
 def position_object(object, position_release):
     global CORDINATE
-    print(f"ho cliccato il bottone --> {object}")
+    global CORDINATE_UPDATE
+    print(f"ho cliccato il bottone --> {object}, posiztion_release --> {position_release}")
     draw = True
     match object['name']:
         case 'casa':  
             size = SIZE_HOME
             color = GRIGIO
             width_new, height_new = size
-            # controllo se le cordinate cliccate si sovrappongono con oggetto gia esistente
         case 'lago':
             size = SIZE_LAKE
             color = AZZURRO
-            width_new = size[0], height_new = size[0]
-
-    for  idx_coord, coord in enumerate(CORDINATE):
+            width_new = size[0]
+            height_new = size[0]
+        
+            
+    # si calcola il centro cosi si fa in un modo per tutti gli oggetti perchè il cerchio da cordinate centro invece
+    # con il quadrato si ha i punti più a sinistra e più in alto
+     
+    for  idx_coord, coord in enumerate(CORDINATE_UPDATE):
         if OBJECT_BASE[idx_coord]['name'] == 'casa':
+            print(coord)
             center_x = coord[0] + (SIZE_HOME[0] // 2)
             center_y = coord[1] + (SIZE_HOME[1] // 2)
         elif OBJECT_BASE[idx_coord]['name'] == 'lago':
+            print(coord)
             center_x = coord[0] 
             center_y = coord[1]
 
+        print(f"draw --> {draw}")
+        print(f"cordinate oggetto creato -->{CORDINATE[idx_coord]}")
+        print(f"cordinate oggetto creato CORDINATE_UPDATE -->{CORDINATE_UPDATE[idx_coord]}")
         position_left, position_right, position_top, position_bottom = get_bounds(center_x, center_y, width_new, height_new)
-        # print(f"position_bottom --> {position_bottom}, position_top --> {position_top}, position_left --> {position_left}, position_right --> {position_right}")
-        if (((position_left <= position_release[0]) and (position_release[0] <= position_right)) and ((position_top <= position_release[1])) and (position_release[1] <= position_bottom )):
+        print(f"position_bottom --> {position_bottom}, position_top --> {position_top}, position_left --> {position_left}, position_right --> {position_right}")
+        if (((position_left <= position_release[0]) and (position_release[0] <= position_right)) and ((position_top <= position_release[1]) and (position_release[1] <= position_bottom ))):
             draw = False
             break
-        
-    print(f"draw --> {draw}")
+    
+
+    
     if draw:
         OBJECT_BASE.append({'name':object['name'], 'size':size, 'color':color})
         # inserire le cordinate qua
         CORDINATE = np.concatenate((CORDINATE, np.array([[position_release[0], position_release[1]]])), axis=0)
+        CORDINATE_UPDATE = np.concatenate((CORDINATE_UPDATE, np.array([[position_release[0], position_release[1]]])), axis=0)
         draw = False
         
-
 
 def check_button(position_clicked, pulsante): 
     print(pulsante)
@@ -59,6 +73,7 @@ def check_button(position_clicked, pulsante):
     if (((position_clicked[0] > pulsante['position_x_min']) and (position_clicked[0] < pulsante['position_X_max'])) and ((position_clicked[1] > pulsante['position_y_min']) and (position_clicked[1] < pulsante['position_y_max']))):
         return True
     return False
+
 
 class LayoutGame:
     def __init__(self, screen):
@@ -109,6 +124,7 @@ class LayoutGame:
                         all'infuori del menu e da position_object che controlla se si ha cliccato un pulsante o no
 
                     '''
+    
                     if (((MENU['positon_x'] < self.last_position[0]) and (self.last_position[0] < MENU['positon_x'] + MENU['width'])) and ((MENU['positon_y'] < self.last_position[1]) and (self.last_position[1] < MENU['positon_y'] + MENU['height']))):
                         for button_menu_id in range(len(menu.position_button)):
                             pulsante_premuto = check_button(self.last_position, menu.position_button[button_menu_id])
@@ -141,10 +157,20 @@ class LayoutGame:
                         # self.camera_x --> 5, self.camera_y --> 41, dx --> 0, dy --> -2
                         # self.camera_x --> 5, self.camera_y --> 41, dx --> 0, dy --> 0
                         dx = position_x - self.last_position[0] 
-                        dy = position_y - self.last_position[1] 
+                        dy = position_y - self.last_position[1]
                         # grandezza della camera cioè di quanto in la ti sei spinto fino ad ora 
                         self.camera_x -= dx 
                         self.camera_y -= dy
+
+                        # si continua ad aggiornare le cordinate, se si va oltre lo schermo si resettano essendo che il
+                        # click del mouse va da 0' a WIDTH e da 0 a HEIGHT
+                        for cordUpd_id in range(len(CORDINATE_UPDATE)):
+                            if CORDINATE_UPDATE[cordUpd_id][0] > WIDTH: CORDINATE_UPDATE[cordUpd_id][0] = CORDINATE[cordUpd_id][0]
+                            if CORDINATE_UPDATE[cordUpd_id][1] > HEIGHT: CORDINATE_UPDATE[cordUpd_id][1] = CORDINATE[cordUpd_id][1]
+                                    
+                            CORDINATE_UPDATE[cordUpd_id][0] += dx
+                            CORDINATE_UPDATE[cordUpd_id][1] += dy
+                            # print(CORDINATE_UPDATE[cordUpd_id])
 
                         self.last_position = (position_x, position_y)
 
