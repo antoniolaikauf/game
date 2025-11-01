@@ -22,12 +22,7 @@ class Button:
 
     def __call__(self, screen, text_name, position, cordinata_x = 0, cordinata_y = 0):
         # cordinate bottone formato da due rettangoli e 4 cerchi ai lati che formano i raccordi
-        pygame.draw.rect(screen, self.color_real, ((self.position_x, self.position_y), (self.width, self.height)))
-        pygame.draw.rect(screen, self.color_real, (((self.position_x - self.radius), (self.position_y + self.radius)), ((self.width +  2 * self.radius), (self.height - 2 * self.radius))))
-        pygame.draw.circle(screen, self.color_real, (self.position_x , self.position_y + self.radius), self.radius)
-        pygame.draw.circle(screen, self.color_real, (self.position_x , self.position_y + self.height - self.radius), self.radius)
-        pygame.draw.circle(screen, self.color_real, (self.position_x + self.width , self.position_y + self.height - self.radius), self.radius)
-        pygame.draw.circle(screen, self.color_real, (self.position_x + self.width , self.position_y + self.radius), self.radius)
+        pygame.draw.rect(screen, self.color_real, ((self.position_x, self.position_y), (self.width, self.height)), border_radius=self.radius)
 
         text = pygame.font.Font('freesansbold.ttf', self.font)
         text_surface = 0
@@ -93,7 +88,6 @@ class Button_general(Button):
 #     GESTIONE MENU
 #------------------------
 
-
 class Menu:
     def __init__(self):
         self.position_x = MENU['positon_x']
@@ -108,13 +102,8 @@ class Menu:
         self.position_button = []
     
     def __call__(self, screen):
-        pygame.draw.rect(screen, self.color, ((self.position_x, self.position_y), (self.width, self.height)))
-        pygame.draw.rect(screen, self.color, (((self.position_x - self.radius), (self.position_y + self.radius)), ((self.width + 2* self.radius), (self.height - 2*self.radius))))
-        pygame.draw.circle(screen, self.color, (self.position_x , self.position_y + self.radius), self.radius)
-        pygame.draw.circle(screen, self.color, (self.position_x , self.position_y + self.height - self.radius), self.radius)
-        pygame.draw.circle(screen, self.color, (self.position_x + self.width , self.position_y + self.height - self.radius), self.radius)
-        pygame.draw.circle(screen, self.color, (self.position_x + self.width , self.position_y + self.radius), self.radius)
-    
+        pygame.draw.rect(screen, self.color, ((self.position_x, self.position_y), (self.width, self.height)), border_radius=self.radius)
+
         # creazione bottono del menu ogni bottone e staccado da 5 
         position_mouse = pygame.mouse.get_pos()
         for id_tag in range(len(self.tag)):
@@ -135,3 +124,8 @@ class Menu:
                 position_Y_MAX = self.button_tag[id_tag].position_y + self.button_tag[id_tag].height
 
                 self.position_button.append({'name': self.tag[id_tag], 'position_x_min': position_X_MIN, 'position_y_min' : position_Y_MIN, 'position_X_max': position_X_MAX, 'position_y_max': position_Y_MAX})
+
+#  magazzino dove verranno contenuti tutti gli oggetti per creare componenti
+class Menu_magazine:
+    def __init__(self):
+        pass

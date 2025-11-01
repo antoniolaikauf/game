@@ -3,15 +3,22 @@ import copy
 
 WIDTH = 1200
 HEIGHT = 720
+
 NERO = (0, 0, 0)
+RED = (217, 33, 33)
 AZZURRO = (50, 150, 200)
 GRIGIO = (131, 140, 142)
 BLU = (0, 128, 255)  # Blu
 BLU_OVER = (0, 200, 255)   # Blu più chiaro per il passaggio del mouse
 VERDE_OVER = (80, 200, 120)
 VERDE = (0, 128, 0)
+BIANCO = (255, 255, 255)
+
 SIZE_HOME = [20, 20]
 SIZE_LAKE = [30]
+SIZE_MANUFACTURIES = [30, 20]
+SIZE_ROAD = [100, 35]
+SIZE_FOREST = [100, 100]
 
 BUTTON = {
     'positon_x' : 20,
@@ -33,7 +40,7 @@ MENU = {
     'height': 400,
     'radius': 10,
     'font': 20,
-    'tag' : ['casa', 'lago', 'ciaosa'],
+    'tag' : ['casa', 'road', 'industria'],
 }
 
 BUTTON_OBJECT = {
@@ -41,7 +48,7 @@ BUTTON_OBJECT = {
     'positon_y' : 20,
     'color_not_over': VERDE,
     'color_over':VERDE_OVER,
-    'width': 100,
+    'width': 140,
     'height': 50,
     'radius': 10,
     'font': 20,
@@ -51,28 +58,28 @@ CORDINATE = np.random.randint((WIDTH // 2), size=(5,2))
 CORDINATE_UPDATE = copy.deepcopy(CORDINATE)
 OBJECT_BASE = [
     {
-        'name':'casa',
+        'name':'home',
         'size':SIZE_HOME,
-        'color':GRIGIO
+        'color':RED
     },
     {
-        'name':'casa',
-        'size':SIZE_HOME,
+        'name':'manufacturing',
+        'size':SIZE_MANUFACTURIES,
         'color':GRIGIO,
     },
     {
-        'name':'casa',
-        'size':SIZE_HOME,
-        'color':GRIGIO,
+        'name':'forest',
+        'size':SIZE_FOREST,
+        'color':VERDE,
     },
     {
-        'name':'lago',
+        'name':'lake',
         'size':SIZE_LAKE,
         'color':AZZURRO
     },
     {
-        'name':'casa',
-        'size':SIZE_HOME,
-        'color':GRIGIO
+        'name':'road', 
+        'size':SIZE_ROAD,
+        'color':NERO
     }
 ]

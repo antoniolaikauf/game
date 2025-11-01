@@ -21,8 +21,33 @@ class Object:
     def draw_circle(self):
         pygame.draw.circle(self.screen, self.color, (self.position_x, self.position_y), self.size[0])
     
+    def draw_manufacturing(self):
+        pygame.draw.rect(self.screen, self.color, ((self.position_x, self.position_y), (self.size[0], self.size[1])))
+    
+    def draw_forest(self):
+        pygame.draw.rect(self.screen, self.color, ((self.position_x, self.position_y), (self.size[0], self.size[1])))
+    
+    def draw_road(self):
+        pygame.draw.rect(self.screen, self.color, ((self.position_x, self.position_y), (self.size[0], self.size[1])))
+        pygame.draw.line(self.screen, BIANCO, (self.position_x , self.position_y + 4), (self.position_x + self.size[0], self.position_y + 4), width=2)
+        # si mette 6 nella posizione perchè si conta anche lo spessore della riga quindi 4 che è l'ofset + lo spessore
+        pygame.draw.line(self.screen, BIANCO, (self.position_x, self.position_y + self.size[1] - 6), (self.position_x + self.size[0], self.position_y + self.size[1] - 6), width=2)
+
+    
     def draw(self):
-        if self.name == "casa":
+        if self.name == "home":
             self.draw_casa()
-        if self.name == "lago":
+        if self.name == "lake":
             self.draw_circle()
+        if self.name == "manufacturing":
+            self.draw_manufacturing()
+        if self.name == "forest":
+            self.draw_forest()
+        if self.name == "road":
+            self.draw_road()
+
+# personaggi che si muoveranno
+class Robot():
+    def __init__(self):
+        pass
+    

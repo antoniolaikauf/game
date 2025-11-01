@@ -24,11 +24,11 @@ def position_object(object, position_release):
     print(f"ho cliccato il bottone --> {object}, posiztion_release --> {position_release}")
     draw = True
     match object['name']:
-        case 'casa':  
+        case 'home':  
             size = SIZE_HOME
             color = GRIGIO
             width_new, height_new = size
-        case 'lago':
+        case 'lake':
             size = SIZE_LAKE
             color = AZZURRO
             width_new = size[0]
@@ -39,11 +39,11 @@ def position_object(object, position_release):
     # con il quadrato si ha i punti più a sinistra e più in alto
      
     for  idx_coord, coord in enumerate(CORDINATE_UPDATE):
-        if OBJECT_BASE[idx_coord]['name'] == 'casa':
+        if OBJECT_BASE[idx_coord]['name'] == 'home':
             print(coord)
             center_x = coord[0] + (SIZE_HOME[0] // 2)
             center_y = coord[1] + (SIZE_HOME[1] // 2)
-        elif OBJECT_BASE[idx_coord]['name'] == 'lago':
+        elif OBJECT_BASE[idx_coord]['name'] == 'lake':
             print(coord)
             center_x = coord[0] 
             center_y = coord[1]
@@ -170,7 +170,6 @@ class LayoutGame:
                                     
                             CORDINATE_UPDATE[cordUpd_id][0] += dx
                             CORDINATE_UPDATE[cordUpd_id][1] += dy
-                            # print(CORDINATE_UPDATE[cordUpd_id])
 
                         self.last_position = (position_x, position_y)
 
