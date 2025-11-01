@@ -13,6 +13,8 @@ BLU_OVER = (0, 200, 255)   # Blu più chiaro per il passaggio del mouse
 VERDE_OVER = (80, 200, 120)
 VERDE = (0, 128, 0)
 BIANCO = (255, 255, 255)
+VERDE_SCURO = (1, 50 , 32)
+MARRONE = (101, 67, 33)
 
 SIZE_HOME = [20, 20]
 SIZE_LAKE = [30]

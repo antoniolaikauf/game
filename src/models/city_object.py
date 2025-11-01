@@ -24,8 +24,19 @@ class Object:
     def draw_manufacturing(self):
         pygame.draw.rect(self.screen, self.color, ((self.position_x, self.position_y), (self.size[0], self.size[1])))
     
+    # creazione della foresta
     def draw_forest(self):
         pygame.draw.rect(self.screen, self.color, ((self.position_x, self.position_y), (self.size[0], self.size[1])))
+
+
+        position_x = self.position_x + 10
+        position_y = self.position_y + 30
+
+        # singolo albero saebbe meglio crearli randomicamnete dentro al quadrato    
+        pygame.draw.rect(self.screen, MARRONE, ((position_x, position_y), (10, 20)))
+        pygame.draw.circle(self.screen, VERDE_SCURO, (position_x - 2, position_y), 10)
+        pygame.draw.circle(self.screen, VERDE_SCURO, (position_x + 12, position_y), 10)
+        pygame.draw.circle(self.screen, VERDE_SCURO, (position_x + 5, position_y - 10), 10)
     
     def draw_road(self):
         pygame.draw.rect(self.screen, self.color, ((self.position_x, self.position_y), (self.size[0], self.size[1])))
