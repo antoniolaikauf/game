@@ -17,6 +17,9 @@ class Object:
 
     def draw_casa(self):
         pygame.draw.rect(self.screen, self.color, ((self.position_x, self.position_y), (self.size[0], self.size[1])))
+        pygame.draw.polygon(self.screen, GRIGIO, 
+                    ((self.position_x, self.position_y), (self.position_x + self.size[0], self.position_y),
+                     (self.position_x + self.size[0] // 2, self.position_y - self.size[0] // 2)))
 
     def draw_circle(self):
         pygame.draw.circle(self.screen, self.color, (self.position_x, self.position_y), self.size[0])
@@ -42,7 +45,8 @@ class Object:
         pygame.draw.rect(self.screen, self.color, ((self.position_x, self.position_y), (self.size[0], self.size[1])))
         pygame.draw.line(self.screen, BIANCO, (self.position_x , self.position_y + 4), (self.position_x + self.size[0], self.position_y + 4), width=2)
         # si mette 6 nella posizione perchè si conta anche lo spessore della riga quindi 4 che è l'ofset + lo spessore
-        pygame.draw.line(self.screen, BIANCO, (self.position_x, self.position_y + self.size[1] - 6), (self.position_x + self.size[0], self.position_y + self.size[1] - 6), width=2)
+        pygame.draw.line(self.screen, BIANCO, 
+                         (self.position_x, self.position_y + self.size[1] - 6), (self.position_x + self.size[0], self.position_y + self.size[1] - 6), width=2)
 
     
     def draw(self):
