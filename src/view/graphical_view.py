@@ -3,6 +3,7 @@ from data.initial_city import *  # Correct relative import
 from ..models.city_object import Object
 from ..controllers.features import Button_general, Menu
 import numpy as np
+from datetime import datetime
 
 # dal centro si ottiene i suoi punti più estremi
 def get_bounds(center_x, center_y, width, height):
@@ -23,6 +24,7 @@ def position_object(object, position_release):
     global CORDINATE_UPDATE
     print(f"ho cliccato il bottone --> {object}, posiztion_release --> {position_release}")
     draw = True
+
     match object['name']:
         case 'home':  
             size = SIZE_HOME
@@ -56,8 +58,6 @@ def position_object(object, position_release):
         if (((position_left <= position_release[0]) and (position_release[0] <= position_right)) and ((position_top <= position_release[1]) and (position_release[1] <= position_bottom ))):
             draw = False
             break
-    
-
     
     if draw:
         OBJECT_BASE.append({'name':object['name'], 'size':size, 'color':color})
@@ -95,6 +95,19 @@ class LayoutGame:
             for idY in range(0, HEIGHT, blocksize):
                 rect = pygame.Rect(idX, idY, blocksize, blocksize)
                 pygame.draw.rect(self.screen, (200, 200, 200), rect, 1)      
+
+    # dark mode per giorno di notte
+    def dark_screen(self):
+        alpha = 0
+        date_time = datetime.now().hour
+        if date_time < 16: alpha = 0
+        elif date_time >= 16 and date_time <= 20: alpha = 75
+        else: alpha = 150
+
+        game_over_screen_fade = pygame.Surface((WIDTH, HEIGHT))
+        game_over_screen_fade.fill((0, 0, 0))
+        game_over_screen_fade.set_alpha(alpha)
+        self.screen.blit(game_over_screen_fade, (0, 0))
 
     def start_game(self):
         button = Button_general()
@@ -198,6 +211,8 @@ class LayoutGame:
                         self.screen.blit(self.image, (screen_x, screen_y))
 
             self.draw_grid()
+
+            self.dark_screen()
 
             for num_object_x in range(CORDINATE.shape[0]):
                 object = Object(OBJECT_BASE[num_object_x]['name'], self.screen, CORDINATE[num_object_x][0], 

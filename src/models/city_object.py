@@ -1,5 +1,6 @@
 import pygame
 from data.initial_city import *
+import random
 
 class Object:
     def __init__(self, name, screen, cordinata_x, cordinata_y, camera_x, camera_y, size, color):
@@ -30,16 +31,19 @@ class Object:
     # creazione della foresta
     def draw_forest(self):
         pygame.draw.rect(self.screen, self.color, ((self.position_x, self.position_y), (self.size[0], self.size[1])))
+        
+        random.seed(12)
+        for _ in range(5):
+            # si fa meno 10 e 20 perchè sarebbero le grandezze del tronco e il punto di creazione del tronco è lo spigolo in alto a sinistra
+            ofset_x = random.randint(0, self.size[0] - 10)
+            ofset_y = random.randint(0, self.size[1] - 20)
+            position_x = self.position_x + ofset_x
+            position_y = self.position_y + ofset_y
 
-
-        position_x = self.position_x + 10
-        position_y = self.position_y + 30
-
-        # singolo albero saebbe meglio crearli randomicamnete dentro al quadrato    
-        pygame.draw.rect(self.screen, MARRONE, ((position_x, position_y), (10, 20)))
-        pygame.draw.circle(self.screen, VERDE_SCURO, (position_x - 2, position_y), 10)
-        pygame.draw.circle(self.screen, VERDE_SCURO, (position_x + 12, position_y), 10)
-        pygame.draw.circle(self.screen, VERDE_SCURO, (position_x + 5, position_y - 10), 10)
+            pygame.draw.rect(self.screen, MARRONE, ((position_x, position_y), (10, 20)))
+            pygame.draw.circle(self.screen, VERDE_SCURO, (position_x - 2, position_y), 10)
+            pygame.draw.circle(self.screen, VERDE_SCURO, (position_x + 12, position_y), 10)
+            pygame.draw.circle(self.screen, VERDE_SCURO, (position_x + 5, position_y - 10), 10)
     
     def draw_road(self):
         pygame.draw.rect(self.screen, self.color, ((self.position_x, self.position_y), (self.size[0], self.size[1])))
@@ -48,7 +52,7 @@ class Object:
         pygame.draw.line(self.screen, BIANCO, 
                          (self.position_x, self.position_y + self.size[1] - 6), (self.position_x + self.size[0], self.position_y + self.size[1] - 6), width=2)
 
-    
+
     def draw(self):
         if self.name == "home":
             self.draw_casa()

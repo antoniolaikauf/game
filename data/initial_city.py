@@ -42,7 +42,7 @@ MENU = {
     'height': 400,
     'radius': 10,
     'font': 20,
-    'tag' : ['casa', 'road', 'industria'],
+    'tag' : ['home', 'road', 'industria', 'lake'], 
 }
 
 BUTTON_OBJECT = {
