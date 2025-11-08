@@ -25,7 +25,6 @@ class Button:
         pygame.draw.rect(screen, self.color_real, ((self.position_x, self.position_y), (self.width, self.height)), border_radius=self.radius)
 
         text = pygame.font.Font('freesansbold.ttf', self.font)
-        text_surface = 0
 
         # creazione testo bottone se si vuole creare la posizione dle testo del bottone inserire qua 
         if position == 'center':

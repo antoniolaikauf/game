@@ -1,21 +1,10 @@
 import pygame
 from data.initial_city import *  # Correct relative import
-from ..models.city_object import Object
+from ..models.city_object import Object, Robot
 from ..controllers.features import Button_general, Menu
+from ..controllers.helpers import get_bounds
 import numpy as np
 from datetime import datetime
-
-# dal centro si ottiene i suoi punti più estremi
-def get_bounds(center_x, center_y, width, height):
-    half_w = width / 2
-    half_h = height / 2
-    
-    return (
-        center_x - half_w,
-        center_x + half_w,
-        center_y - half_h,
-        center_y + half_h
-    )
 
 
 # si controllano le posizioni 'false' degli oggetti 
@@ -110,6 +99,7 @@ class LayoutGame:
         self.screen.blit(game_over_screen_fade, (0, 0))
 
     def start_game(self):
+        robot = Robot(self.screen, 400, 100, 'miner')
         button = Button_general()
         menu = Menu()
         running = True
@@ -220,7 +210,7 @@ class LayoutGame:
                 object.draw()
             
             button(self.screen, 'Menu', 'center')
-
+            robot.draw()
             # mostrare il menu una volta cliccato il bottone
             if button.button_click:
                 menu(self.screen)

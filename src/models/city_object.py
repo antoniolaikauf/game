@@ -1,5 +1,6 @@
 import pygame
 from data.initial_city import *
+from ..controllers.helpers import get_center
 import random
 
 class Object:
@@ -67,6 +68,35 @@ class Object:
 
 # personaggi che si muoveranno
 class Robot():
-    def __init__(self):
-        pass
+    def __init__(self, screen, position_x, position_y, job):
+        self.name = ''
+        self.screen = screen
+        self.position_x = position_x
+        self.position_y = position_y
+        self.job = job
+        self.text = pygame.font.Font('freesansbold.ttf', 15)
+        
+    def draw(self):
+        if self.job == 'citizen':
+            self.citizen()
+        elif self.job == 'farmer':
+            self.farmer()
+        elif self.job == 'miner':
+            self.miner()
+
+    def citizen(self):
+        pygame.draw.circle(self.screen, ROSA, (self.position_x, self.position_y), 10)
+    
+    def farmer(self):
+        pygame.draw.polygon(self.screen, GIALLO_SPENTO, ((self.position_x, self.position_y), (self.position_x + 10, self.position_y), (self.position_x + 5, self.position_y - 5)))
+
+    def miner(self):
+        size = (10, 10)
+        # si crea il testo cosi che si sa che tipo di robot è
+        text_surface = self.text.render(self.job, False, (0, 0, 0))
+        width = text_surface.get_width()
+        height = text_surface.get_height()
+        center_x, center_y = get_center('square',[width, height]) # si ottiene il centro del testo 
+        self.screen.blit(text_surface, (self.position_x + (size[0] // 2 - center_x), self.position_y - height)) # si sottrae la metà del lato delle x cosi che si ottiene il punto preciso di partenza delle x cosi che la scritta compaia centrale
+        pygame.draw.rect(self.screen, NERO, ((self.position_x, self.position_y), size), border_radius=2)
     
