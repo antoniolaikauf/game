@@ -11,13 +11,8 @@ def get_bounds(center_x, center_y, width, height):
     )
 
 def get_center(name, size):
-    if name == 'square':
+    if name == 'text':
         return (size[0] // 2, size[1] // 2)
-    if name == 'circle':
-        return tuple(size)
-    if name == 'polygon':
-        # return (size[])
-        pass
     
 
 # fare una funzione che se gli dai il tipo d'oggetto e cosa vuoi esempio il punto più a destra o il centro lui ti ritorna quello

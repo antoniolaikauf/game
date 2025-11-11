@@ -99,7 +99,7 @@ class LayoutGame:
         self.screen.blit(game_over_screen_fade, (0, 0))
 
     def start_game(self):
-        robot = Robot(self.screen, 400, 100, 'miner')
+        robot = Robot(self.screen, 400, 100, 'farmer')
         button = Button_general()
         menu = Menu()
         running = True
