@@ -87,3 +87,22 @@ OBJECT_BASE = [
         'color':NERO
     }
 ]
+
+CORDINATE_PERSON = np.random.randint(WIDTH // 2, size=(5,2))
+PERSON_BASE = [
+    {
+        'name':'farmer'
+    },
+    {
+        'name':'miner',
+    },
+    {
+        'name':'citizen',
+    },
+    {
+        'name':'miner',
+    },
+    {
+        'name':'citizen',
+    }
+]

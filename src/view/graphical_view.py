@@ -1,5 +1,5 @@
 import pygame
-from data.initial_city import *  # Correct relative import
+from data.initial_city import * 
 from ..models.city_object import Object, Robot
 from ..controllers.features import Button_general, Menu
 from ..controllers.helpers import get_bounds
@@ -99,7 +99,6 @@ class LayoutGame:
         self.screen.blit(game_over_screen_fade, (0, 0))
 
     def start_game(self):
-        robot = Robot(self.screen, 400, 100, 'farmer')
         button = Button_general()
         menu = Menu()
         running = True
@@ -207,10 +206,13 @@ class LayoutGame:
             for num_object_x in range(CORDINATE.shape[0]):
                 object = Object(OBJECT_BASE[num_object_x]['name'], self.screen, CORDINATE[num_object_x][0], 
                                 CORDINATE[num_object_x][1], self.camera_x, self.camera_y, OBJECT_BASE[num_object_x]['size'], OBJECT_BASE[num_object_x]['color'])
-                object.draw()
+                object.draw(self.camera_x, self.camera_y)
+
+            for num_person_id in range(CORDINATE_PERSON.shape[0]):
+                robot = Robot(self.screen, CORDINATE_PERSON[num_person_id][0], CORDINATE_PERSON[num_person_id][1], self.camera_x, self.camera_y, PERSON_BASE[num_person_id]['name'])
+                robot.draw(self.camera_x, self.camera_y)
             
             button(self.screen, 'Menu', 'center')
-            robot.draw()
             # mostrare il menu una volta cliccato il bottone
             if button.button_click:
                 menu(self.screen)
@@ -218,4 +220,13 @@ class LayoutGame:
             pygame.display.flip()      
             self.clock.tick(60)        
         
-        pygame.quit()   
+        pygame.quit()  
+
+
+
+'''
+prossimo step sistemare la creazione degli oggetti e persone, non ha senso continuare a creare un oggetto nel ciclo come si sta facendo ora
+si creano di fuori e si aggiungono ad un array e si chiama la funzione, però quando si crea un nuovo oggetto non si fa come si è fatto cioè mettere il nome
+dentro all'array e le sue cordinate ma si crea direttamente l'oggetto (o si fa una funzione che ti permette di creare un nuovo oggetto ma non ha molto senso )
+e dopo si aggiunge l'oggetto dentro all'array.
+'''
