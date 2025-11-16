@@ -24,12 +24,23 @@ def position_object(object, position_release):
             color = AZZURRO
             width_new = size[0]
             height_new = size[0]
-        
+        case 'manufacturing':
+            size = SIZE_MANUFACTURIES
+            color = GRIGIO
+            width_new, height_new = size
+        case 'forest':
+            size = SIZE_FOREST
+            color = VERDE
+            width_new, height_new = size
+        case 'road':
+            size = SIZE_ROAD
+            color = NERO
+            width_new, height_new = size
             
     # si calcola il centro cosi si fa in un modo per tutti gli oggetti perchè il cerchio da cordinate centro invece
     # con il quadrato si ha i punti più a sinistra e più in alto
     for  idx_coord, coord in enumerate(CORDINATE_UPDATE):
-        if OBJECT_BASE[idx_coord]['name'] == 'home':
+        if OBJECT_BASE[idx_coord]['name'] == 'home' or OBJECT_BASE[idx_coord]['name'] == 'manufacturing' or OBJECT_BASE[idx_coord]['name'] == 'forest' or OBJECT_BASE[idx_coord]['name'] == 'road':
             print(coord)
             center_x = coord[0] + (SIZE_HOME[0] // 2)
             center_y = coord[1] + (SIZE_HOME[1] // 2)
@@ -48,7 +59,6 @@ def position_object(object, position_release):
             break
     
     if draw:
-        # OBJECT_BASE.append({'name':object['name'], 'size':size, 'color':color})
         # inserire le cordinate qua
         CORDINATE = np.concatenate((CORDINATE, np.array([[position_release[0], position_release[1]]])), axis=0)
         CORDINATE_UPDATE = np.concatenate((CORDINATE_UPDATE, np.array([[position_release[0], position_release[1]]])), axis=0)
