@@ -40,10 +40,11 @@ def position_object(object, position_release):
     # si calcola il centro cosi si fa in un modo per tutti gli oggetti perchè il cerchio da cordinate centro invece
     # con il quadrato si ha i punti più a sinistra e più in alto
     for  idx_coord, coord in enumerate(CORDINATE_UPDATE):
-        if OBJECT_BASE[idx_coord]['name'] == 'home' or OBJECT_BASE[idx_coord]['name'] == 'manufacturing' or OBJECT_BASE[idx_coord]['name'] == 'forest' or OBJECT_BASE[idx_coord]['name'] == 'road':
-            print(coord)
-            center_x = coord[0] + (SIZE_HOME[0] // 2)
-            center_y = coord[1] + (SIZE_HOME[1] // 2)
+        print(idx_coord, ' --> ', coord, ' --> ', OBJECT_BASE[idx_coord]['name'])
+        if OBJECT_BASE[idx_coord]['name'] == 'home' or OBJECT_BASE[idx_coord]['name'] == 'manufacturing' or OBJECT_BASE[idx_coord]['name'] == 'forest'  or OBJECT_BASE[idx_coord]['name'] == 'road' :
+            # print(coord)
+            center_x = coord[0] + (size[0] // 2)
+            center_y = coord[1] + (size[1] // 2)
         elif OBJECT_BASE[idx_coord]['name'] == 'lake':
             print(coord)
             center_x = coord[0] 
@@ -51,19 +52,20 @@ def position_object(object, position_release):
 
         # print(f"draw --> {draw}")
         # print(f"cordinate oggetto creato -->{CORDINATE[idx_coord]}")
-        # print(f"cordinate oggetto creato CORDINATE_UPDATE -->{CORDINATE_UPDATE[idx_coord]}")
+        # print(f"cordinate oggetto creato CORDINATE_UPDATE -->{CORDINATE_UPDATE[idx_coord]}, nome oggetto --> {OBJECT_BASE[idx_coord]['name']}")
         position_left, position_right, position_top, position_bottom = get_bounds(center_x, center_y, width_new, height_new)
-        # print(f"position_bottom --> {position_bottom}, position_top --> {position_top}, position_left --> {position_left}, position_right --> {position_right}")
+        print(f"position_bottom --> {position_bottom}, position_top --> {position_top}, position_left --> {position_left}, position_right --> {position_right}")
         if (((position_left <= position_release[0]) and (position_release[0] <= position_right)) and ((position_top <= position_release[1]) and (position_release[1] <= position_bottom ))):
             draw = False
             break
-    
+        
     if draw:
+        OBJECT_BASE.append({'name':object['name'], 'size':size, 'color':color})
         # inserire le cordinate qua
         CORDINATE = np.concatenate((CORDINATE, np.array([[position_release[0], position_release[1]]])), axis=0)
         CORDINATE_UPDATE = np.concatenate((CORDINATE_UPDATE, np.array([[position_release[0], position_release[1]]])), axis=0)
         draw = False
-        return (object ['name'], size, color, position_release[0], position_release[1])
+        return (object['name'], size, color, position_release[0], position_release[1])
 
     return (0, 0, 0, 0, 0)
     
@@ -245,4 +247,13 @@ class LayoutGame:
             pygame.display.flip()      
             self.clock.tick(60)        
         
-        pygame.quit()  
+        pygame.quit() 
+
+
+
+'''
+capire come mai in alcuni componenti si riesce a posizionare oggetti sopra   es la casa si riesce a posizionare sopra alla strada ma solo sulla parte destra
+
+si creano i limiti degli oggetti 
+
+'''
