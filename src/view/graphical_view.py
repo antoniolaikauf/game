@@ -28,7 +28,6 @@ def position_object(object, position_release):
             
     # si calcola il centro cosi si fa in un modo per tutti gli oggetti perchè il cerchio da cordinate centro invece
     # con il quadrato si ha i punti più a sinistra e più in alto
-     
     for  idx_coord, coord in enumerate(CORDINATE_UPDATE):
         if OBJECT_BASE[idx_coord]['name'] == 'home':
             print(coord)
@@ -39,22 +38,25 @@ def position_object(object, position_release):
             center_x = coord[0] 
             center_y = coord[1]
 
-        print(f"draw --> {draw}")
-        print(f"cordinate oggetto creato -->{CORDINATE[idx_coord]}")
-        print(f"cordinate oggetto creato CORDINATE_UPDATE -->{CORDINATE_UPDATE[idx_coord]}")
+        # print(f"draw --> {draw}")
+        # print(f"cordinate oggetto creato -->{CORDINATE[idx_coord]}")
+        # print(f"cordinate oggetto creato CORDINATE_UPDATE -->{CORDINATE_UPDATE[idx_coord]}")
         position_left, position_right, position_top, position_bottom = get_bounds(center_x, center_y, width_new, height_new)
-        print(f"position_bottom --> {position_bottom}, position_top --> {position_top}, position_left --> {position_left}, position_right --> {position_right}")
+        # print(f"position_bottom --> {position_bottom}, position_top --> {position_top}, position_left --> {position_left}, position_right --> {position_right}")
         if (((position_left <= position_release[0]) and (position_release[0] <= position_right)) and ((position_top <= position_release[1]) and (position_release[1] <= position_bottom ))):
             draw = False
             break
     
     if draw:
-        OBJECT_BASE.append({'name':object['name'], 'size':size, 'color':color})
+        # OBJECT_BASE.append({'name':object['name'], 'size':size, 'color':color})
         # inserire le cordinate qua
         CORDINATE = np.concatenate((CORDINATE, np.array([[position_release[0], position_release[1]]])), axis=0)
         CORDINATE_UPDATE = np.concatenate((CORDINATE_UPDATE, np.array([[position_release[0], position_release[1]]])), axis=0)
         draw = False
-        
+        return (object ['name'], size, color, position_release[0], position_release[1])
+
+    return (0, 0, 0, 0, 0)
+    
 
 def check_button(position_clicked, pulsante): 
     print(pulsante)
@@ -77,6 +79,8 @@ class LayoutGame:
         self.image = pygame.image.load("src/utils/background1.jpg").convert()
         self.camera_x = 0
         self.camera_y = 0
+        self.objects = []
+        self.robots = []
 
     def draw_grid(self):
         blocksize = 20
@@ -107,6 +111,15 @@ class LayoutGame:
         pulsante_premuto = False
         name_button = ''
 
+        for num_object_x in range(CORDINATE.shape[0]):
+            object = Object(OBJECT_BASE[num_object_x]['name'], self.screen, CORDINATE[num_object_x][0], 
+                                CORDINATE[num_object_x][1], self.camera_x, self.camera_y, OBJECT_BASE[num_object_x]['size'], OBJECT_BASE[num_object_x]['color'])
+            self.objects.append(object)
+                
+        for num_person_id in range(CORDINATE_PERSON.shape[0]):
+            robot = Robot(self.screen, CORDINATE_PERSON[num_person_id][0], CORDINATE_PERSON[num_person_id][1], self.camera_x, self.camera_y, PERSON_BASE[num_person_id]['name'])
+            self.robots.append(robot)
+
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -136,7 +149,12 @@ class LayoutGame:
                     else:
                         if pulsante_premuto:
                             pulsante_premuto = False
-                            position_object(name_button, self.last_position)
+                            name, size, color, cordinate_x , cordinate_y = position_object(name_button, self.last_position)
+                            match name:
+                                case 'home' | 'manufacturing' | 'forest' | 'lake' | 'road':
+                                    new_object = Object(name, self.screen, cordinate_x, cordinate_y, self.camera_x, self.camera_y, size, color)
+                                    self.objects.append(new_object)
+                                    
                         else:
                             button.button_click = False
 
@@ -175,7 +193,7 @@ class LayoutGame:
 
                         self.last_position = (position_x, position_y)
 
-                        print(f"self.camera_x --> {self.camera_x}, self.camera_y --> {self.camera_y}, dx --> {dx}, dy --> {dy}")
+                        # print(f"self.camera_x --> {self.camera_x}, self.camera_y --> {self.camera_y}, dx --> {dx}, dy --> {dy}")
 
 
             '''
@@ -203,14 +221,11 @@ class LayoutGame:
 
             self.dark_screen()
 
-            for num_object_x in range(CORDINATE.shape[0]):
-                object = Object(OBJECT_BASE[num_object_x]['name'], self.screen, CORDINATE[num_object_x][0], 
-                                CORDINATE[num_object_x][1], self.camera_x, self.camera_y, OBJECT_BASE[num_object_x]['size'], OBJECT_BASE[num_object_x]['color'])
-                object.draw(self.camera_x, self.camera_y)
+            for num_object_x in range(len(self.objects)):
+                self.objects[num_object_x].draw(self.camera_x, self.camera_y)
 
-            for num_person_id in range(CORDINATE_PERSON.shape[0]):
-                robot = Robot(self.screen, CORDINATE_PERSON[num_person_id][0], CORDINATE_PERSON[num_person_id][1], self.camera_x, self.camera_y, PERSON_BASE[num_person_id]['name'])
-                robot.draw(self.camera_x, self.camera_y)
+            for num_person_id in range(len(self.robots)):
+                self.robots[num_person_id].draw(self.camera_x, self.camera_y)
             
             button(self.screen, 'Menu', 'center')
             # mostrare il menu una volta cliccato il bottone
@@ -221,12 +236,3 @@ class LayoutGame:
             self.clock.tick(60)        
         
         pygame.quit()  
-
-
-
-'''
-prossimo step sistemare la creazione degli oggetti e persone, non ha senso continuare a creare un oggetto nel ciclo come si sta facendo ora
-si creano di fuori e si aggiungono ad un array e si chiama la funzione, però quando si crea un nuovo oggetto non si fa come si è fatto cioè mettere il nome
-dentro all'array e le sue cordinate ma si crea direttamente l'oggetto (o si fa una funzione che ti permette di creare un nuovo oggetto ma non ha molto senso )
-e dopo si aggiunge l'oggetto dentro all'array.
-'''

@@ -58,7 +58,7 @@ BUTTON_OBJECT = {
     'font': 20,
 }
 
-CORDINATE = np.random.randint((WIDTH // 2), size=(5,2))
+CORDINATE = np.random.randint((WIDTH // 2), size=(1,2))
 CORDINATE_UPDATE = copy.deepcopy(CORDINATE)
 OBJECT_BASE = [
     {
@@ -66,26 +66,26 @@ OBJECT_BASE = [
         'size':SIZE_HOME,
         'color':RED
     },
-    {
-        'name':'manufacturing',
-        'size':SIZE_MANUFACTURIES,
-        'color':GRIGIO,
-    },
-    {
-        'name':'forest',
-        'size':SIZE_FOREST,
-        'color':VERDE,
-    },
+    # {
+    #     'name':'manufacturing',
+    #     'size':SIZE_MANUFACTURIES,
+    #     'color':GRIGIO,
+    # },
+    # {
+    #     'name':'forest',
+    #     'size':SIZE_FOREST,
+    #     'color':VERDE,
+    # },
     {
         'name':'lake',
         'size':SIZE_LAKE,
         'color':AZZURRO
     },
-    {
-        'name':'road', 
-        'size':SIZE_ROAD,
-        'color':NERO
-    }
+    # {
+    #     'name':'road', 
+    #     'size':SIZE_ROAD,
+    #     'color':NERO
+    # }
 ]
 
 CORDINATE_PERSON = np.random.randint(WIDTH // 2, size=(5,2))
